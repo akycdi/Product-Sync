@@ -1,7 +1,7 @@
-// src/components/ProductList.js
+// src/components/ProductList.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './ProductList.css'; 
+import '../Css/ProductList.css'; 
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);

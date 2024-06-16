@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AllItems from './pages/AllItems';
 import UpdateItem from './pages/UpdateItem';
 import DeleteItem from './pages/DeleteItem';
@@ -7,11 +7,11 @@ import DeleteItem from './pages/DeleteItem';
 const App = () => {
     return (
         <Router>
-            <Switch>
-                <Route path="/" exact component={AllItems} />
-                <Route path="/update" exact component={UpdateItem} />
-                <Route path="/delete" exact component={DeleteItem} />
-            </Switch>
+            <Routes>
+                <Route path="/" element={<AllItems />} />
+                <Route path="/update" element={<UpdateItem />} />
+                <Route path="/delete" element={<DeleteItem />} />
+            </Routes>
         </Router>
     );
 };
