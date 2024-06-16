@@ -61,4 +61,17 @@ public class ProductController {
         List<Product> products = productService.searchProductsByName(name);
         return ResponseEntity.ok(products);
     }
+
+
+    @PutMapping("/sell/{id}")
+    public ResponseEntity<Product> sellProduct(@PathVariable Long id) {
+        Product soldProduct = productService.sellProduct(id);
+        return ResponseEntity.ok(soldProduct);
+    }
+
+    @GetMapping("/lastRecived/{id}")
+    public ResponseEntity<Long> calculateDaysInDatabase(@PathVariable Long id) {
+        long daysInDatabase = productService.calculateDaysInDatabase(id);
+        return ResponseEntity.ok(daysInDatabase);
+    }
 }

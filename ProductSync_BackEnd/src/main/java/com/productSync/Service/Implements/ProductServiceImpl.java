@@ -1,5 +1,7 @@
 package com.productSync.Service.Implements;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,5 +57,24 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> searchProductsByName(String name) {
         return productDAO.searchProductsByName(name);
+    }
+
+      @Override
+    public Product sellProduct(Long productId) {
+        Product product = productDAO.getProductById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setSoldDate(LocalDate.now());
+        return productDAO.updateProduct(product);
+    }
+
+    @Override
+    public long calculateDaysInDatabase(Long productId) {
+        Product product = productDAO.getProductById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        LocalDate currentDate = LocalDate.now();
+        LocalDate createdDate = product.getCreatedDate();
+        return ChronoUnit.DAYS.between(createdDate, currentDate);
     }
 }

@@ -1,5 +1,6 @@
 package com.productSync.Model;
 
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,4 +24,7 @@ public class Product {
 
     @ManyToOne
     private Category category;
+
+    private LocalDate createdDate;
+    private LocalDate soldDate;
 }
