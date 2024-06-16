@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import '../Css/SearchComponent.css';
 
 const SearchComponent = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
+    const navigate = useNavigate();
 
-    const handleSearch = async () => {
-        try {
-            const response = await axios.get(`http://localhost:8080/api/products/search/${searchTerm}`);
-            setSearchResults(response.data);
-        } catch (error) {
-            console.error('Error searching products:', error);
-        }
+    const handleSearch = () => {
+        navigate(`/search/${searchTerm}`);
     };
 
     return (
@@ -25,13 +20,6 @@ const SearchComponent = () => {
                 placeholder="Search by name..."
             />
             <button onClick={handleSearch}>Search</button>
-            <ul className="search-results">
-                {searchResults.map((product) => (
-                    <li key={product.id}>
-                        {product.name} - ${product.price}
-                    </li>
-                ))}
-            </ul>
         </div>
     );
 };

@@ -11,7 +11,7 @@
 
 .product-item {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     margin-bottom: 10px;
     padding: 8px;
     border-radius: 5px;
@@ -23,7 +23,7 @@
 }
 
 .product-price {
-    color: #007bff; /* Blue color for price */
+    color: red;
 }
 
 .error-message {

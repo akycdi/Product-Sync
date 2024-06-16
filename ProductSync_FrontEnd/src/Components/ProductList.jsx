@@ -1,4 +1,3 @@
-// src/components/ProductList.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../Css/ProductList.css'; 
@@ -29,7 +28,9 @@ const ProductList = () => {
                 <ul className="product-list">
                     {products.map((product) => (
                         <li key={product.id} className="product-item">
+                            <span className="product-id">{product.id}</span>
                             <span className="product-name">{product.name}</span>
+                            <span className="product-quantity">{product.quantity}</span>
                             <span className="product-price">${product.price}</span>
                         </li>
                     ))}
