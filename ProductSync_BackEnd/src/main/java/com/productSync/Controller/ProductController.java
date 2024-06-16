@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
+@CrossOrigin("http://localhost:5173/")
 public class ProductController {
 
     @Autowired
@@ -28,50 +29,91 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getProductById(@PathVariable Long id) {
-        Optional<Product> productOptional = productService.getProductById(id);
-        if (productOptional.isPresent()) {
-            return ResponseEntity.ok(productOptional.get());
-        } else {
+        try {
+            Optional<Product> productOptional = productService.getProductById(id);
+            if (productOptional.isPresent()) {
+                return ResponseEntity.ok(productOptional.get());
+            } else {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "No product found with ID: " + id);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+            }
+        } catch (Exception e) {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "No product found with ID: " + id);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+            errorResponse.put("error", "Internal Server Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        Product createdProduct = productService.createProduct(product);
-        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
+    public ResponseEntity<?> createProduct(@RequestBody Product product) {
+        try {
+            Product createdProduct = productService.createProduct(product);
+            return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Internal Server Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product productDetails) {
-        Product updatedProduct = productService.updateProduct(id, productDetails);
-        return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody Product productDetails) {
+        try {
+            Product updatedProduct = productService.updateProduct(id, productDetails);
+            return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Internal Server Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
-        return new ResponseEntity<>("Deleted Product", HttpStatus.OK);
+        try {
+            productService.deleteProduct(id);
+            return ResponseEntity.ok("Deleted Product");
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Internal Server Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
 
     @GetMapping("/search/{name}")
-    public ResponseEntity<List<Product>> searchProductsByName(@PathVariable String name) {
-        List<Product> products = productService.searchProductsByName(name);
-        return ResponseEntity.ok(products);
+    public ResponseEntity<?> searchProductsByName(@PathVariable String name) {
+        try {
+            List<Product> products = productService.searchProductsByName(name);
+            return ResponseEntity.ok(products);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Internal Server Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
-
 
     @PutMapping("/sell/{id}")
-    public ResponseEntity<Product> sellProduct(@PathVariable Long id) {
-        Product soldProduct = productService.sellProduct(id);
-        return ResponseEntity.ok(soldProduct);
+    public ResponseEntity<?> sellProduct(@PathVariable Long id) {
+        try {
+            Product soldProduct = productService.sellProduct(id);
+            return ResponseEntity.ok(soldProduct);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Internal Server Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
 
-    @GetMapping("/lastRecived/{id}")
-    public ResponseEntity<Long> calculateDaysInDatabase(@PathVariable Long id) {
-        long daysInDatabase = productService.calculateDaysInDatabase(id);
-        return ResponseEntity.ok(daysInDatabase);
+    @GetMapping("/lastReceived/{id}")
+    public ResponseEntity<?> calculateDaysInDatabase(@PathVariable Long id) {
+        try {
+            long daysInDatabase = productService.calculateDaysInDatabase(id);
+            return ResponseEntity.ok(daysInDatabase);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Internal Server Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
 }

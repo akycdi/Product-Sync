@@ -1,0 +1,32 @@
+.product-list-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.product-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+}
+
+.product-name {
+    font-weight: bold;
+}
+
+.product-price {
+    color: #007bff; /* Blue color for price */
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+}
