@@ -1,58 +1,81 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-.header {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px;
-    text-align: center;
-}
-
-.container {
-    max-width: 800px;
-    margin: 20px auto;
+.all-items-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
 }
 
-.search-bar {
+/* Styles for SearchComponent */
+/* Assuming you have a class or ID for the SearchComponent container */
+.search-container {
     margin-bottom: 20px;
 }
 
-.search-input {
+/* Styles for ProductList */
+/* Assuming you have a class or ID for the ProductList container */
+.product-list-container {
     width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-}
-
-.btn:hover {
-    background-color: #0056b3;
-}
-
-.item-list {
+.product-list {
     list-style: none;
     padding: 0;
 }
 
-.item {
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
+.product-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.product-item:last-child {
+    border-bottom: none;
+}
+
+.product-item span {
+    flex: 1;
+    padding: 0 10px;
+}
+
+.product-id {
+    width: 10%;
+}
+
+.product-name {
+    width: 30%;
+}
+
+.product-quantity,
+.product-price {
+    width: 15%;
+    text-align: center;
+}
+
+.product-price {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.product-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.product-actions button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.product-actions button:hover {
+    background-color: #f0f0f0;
 }

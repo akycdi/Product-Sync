@@ -1,22 +1,20 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import AllItems from "./pages/AllItems";
-import UpdateItem from "./pages/UpdateItem";
-import DeleteItem from "./pages/DeleteItem";
+import Products from "./pages/Products";
 import CreateProduct from "./pages/CreateProduct";
 import ProductDetail from "./pages/ProductDetail";
 import UpdateProduct from "./Components/UpdateProduct";
+import HomePage from "./pages/HomePage";
+
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<AllItems />} />
-        <Route path="/update" element={<UpdateItem />} />
-        <Route path="/delete" element={<DeleteItem />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/products" element={<Products />} />
         <Route path="/create" element={<CreateProduct />} />
         <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/update-item" element={<UpdateItem />} />
         <Route path="/product/update/:id" element={<UpdateProduct />} />
       </Routes>
     </Router>

@@ -1,4 +1,3 @@
-// src/pages/ProductDetail.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -29,8 +28,8 @@ const ProductDetail = () => {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:8080/api/products/${id}`);
-            navigate('/'); // Redirect to home or product list page after deletion
+            await axios.delete(`http://localhost:8080/api/products/delete/${id}`);
+            navigate('/');
         } catch (error) {
             setError(error.response?.data?.error || 'An error occurred while deleting the product');
         }

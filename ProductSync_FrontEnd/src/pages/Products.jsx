@@ -3,7 +3,7 @@ import SearchComponent from "../Components/SearchComponent";
 import "../CSS/AllItems.css";
 import ProductList from "../Components/ProductList";
 
-const AllItems = () => {
+const Products = () => {
     return (
         <div className="all-items-container">
             <SearchComponent />
@@ -12,4 +12,4 @@ const AllItems = () => {
     );
 };
 
-export default AllItems;
+export default Products;
