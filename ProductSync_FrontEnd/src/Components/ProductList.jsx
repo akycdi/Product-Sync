@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../Css/ProductList.css'; 
+import '../CSS/ProductList.css'; 
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchProducts();
@@ -19,6 +21,10 @@ const ProductList = () => {
         }
     };
 
+    const handleProductClick = (id) => {
+        navigate(`/product/${id}`);
+    };
+
     return (
         <div className="product-list-container">
             <h1>Product List</h1>
@@ -27,7 +33,7 @@ const ProductList = () => {
             ) : (
                 <ul className="product-list">
                     {products.map((product) => (
-                        <li key={product.id} className="product-item">
+                        <li key={product.id} className="product-item" onClick={() => handleProductClick(product.id)}>
                             <span className="product-id">{product.id}</span>
                             <span className="product-name">{product.name}</span>
                             <span className="product-quantity">{product.quantity}</span>

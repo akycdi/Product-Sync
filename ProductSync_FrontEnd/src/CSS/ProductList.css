@@ -1,7 +1,7 @@
 .product-list-container {
-    max-width: 600px;
-    margin: 0 auto;
     padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .product-list {
@@ -10,23 +10,20 @@
 }
 
 .product-item {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 10px;
-    padding: 8px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
     border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-item:hover {
     background-color: #f0f0f0;
 }
 
-.product-name {
-    font-weight: bold;
-}
-
-.product-price {
-    color: red;
-}
-
-.error-message {
-    color: red;
-    font-weight: bold;
+.product-id, .product-name, .product-quantity, .product-price {
+    margin: 0 10px;
 }

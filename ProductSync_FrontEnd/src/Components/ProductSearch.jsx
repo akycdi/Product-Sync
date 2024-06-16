@@ -1,7 +1,6 @@
-// src/components/ProductSearch.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import './ProductSearch.css'; // Import the CSS file for styling
+import '../CSS/ProductSearch'; 
 
 const ProductSearch = () => {
     const [searchTerm, setSearchTerm] = useState('');

@@ -7,7 +7,6 @@ const UpdateItem = () => {
     return (
         <div>
             <h3>Update Item</h3>
-            <SearchComponent />
         </div>
     );
 };

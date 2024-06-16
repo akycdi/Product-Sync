@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../Css/CreateProduct.css";
+import "../CSS/CreateProduct.css";
 import { useNavigate } from "react-router-dom";
 
 const CreateProduct = () => {

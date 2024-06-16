@@ -1,6 +1,6 @@
 import React from "react";
-import SearchComponent from "../Components/SearchComponent"; // Ensure this path is correct
-import "../Css/styles.css";
+import SearchComponent from "../Components/SearchComponent"; 
+import "../CSS/styles.css";
 import ProductList from "../Components/ProductList";
 
 const AllItems = () => {
