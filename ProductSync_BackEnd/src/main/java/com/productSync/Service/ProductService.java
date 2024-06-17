@@ -19,7 +19,7 @@ public interface ProductService {
 
     public List<Product> searchProductsByName(String name);
 
-    public Product sellProduct(Long productId);
+    public void sellProduct(Long productId, Long customerId);
 
     public long calculateDaysInDatabase(Long productId);
 }

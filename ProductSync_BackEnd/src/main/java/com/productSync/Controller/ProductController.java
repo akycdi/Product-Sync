@@ -93,15 +93,13 @@ public class ProductController {
         }
     }
 
-    @PutMapping("/sell/{id}")
-    public ResponseEntity<?> sellProduct(@PathVariable Long id) {
+    @PutMapping("/sell/{productId}")
+    public ResponseEntity<?> sellProduct(@PathVariable Long productId, @RequestParam Long customerId) {
         try {
-            Product soldProduct = productService.sellProduct(id);
-            return ResponseEntity.ok(soldProduct);
-        } catch (Exception e) {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Internal Server Error: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            productService.sellProduct(productId, customerId);
+            return new ResponseEntity<>("Product sold successfully", HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

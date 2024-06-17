@@ -1,13 +1,10 @@
 package com.productSync.Model;
 
-import java.time.LocalDate;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -25,6 +22,9 @@ public class Product {
     @ManyToOne
     private Category category;
 
-    private LocalDate createdDate;
-    private LocalDate soldDate;
+    private Date createdDate;
+    private Date soldDate;
+
+    @OneToMany(mappedBy = "product")
+    private List<CustomerProduct> customerProducts;
 }

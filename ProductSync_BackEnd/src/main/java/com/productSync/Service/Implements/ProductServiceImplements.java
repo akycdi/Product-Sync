@@ -1,10 +1,12 @@
 package com.productSync.Service.Implements;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.productSync.DAO.CustomerDAO;
+import com.productSync.Model.Customer;
+import com.productSync.Model.CustomerProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,13 @@ import com.productSync.Model.Product;
 import com.productSync.Service.ProductService;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImplements implements ProductService {
 
     @Autowired
     private ProductDAO productDAO;
+
+    @Autowired
+    private CustomerDAO customerDAO;
 
     @Override
     public List<Product> getAllProducts() {
@@ -30,7 +35,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product createProduct(Product product) {
-        return productDAO.createProduct(product);
+        product.setCreatedDate(new Date());
+        Product createdProduct = productDAO.createProduct(product);
+        return productDAO.createProduct(createdProduct);
     }
 
     @Override
@@ -59,22 +66,45 @@ public class ProductServiceImpl implements ProductService {
         return productDAO.searchProductsByName(name);
     }
 
-      @Override
-    public Product sellProduct(Long productId) {
+
+    public void sellProduct(Long productId, Long customerId) {
         Product product = productDAO.getProductById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        product.setSoldDate(LocalDate.now());
-        return productDAO.updateProduct(product);
+        Customer customer = customerDAO.getCustomerById(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        if (product.getQuantity() > 0) {
+            // Create a new CustomerProduct entity to represent the purchase
+            CustomerProduct customerProduct = new CustomerProduct();
+            customerProduct.setProduct(product);
+            customerProduct.setCustomer(customer);
+            customerProduct.setQuantity(1); // Assuming you sell only one quantity at a time
+
+            // Set the sold date and update the product quantity
+            product.setSoldDate(new Date());
+            product.setQuantity(product.getQuantity() - 1);
+
+            // Add the CustomerProduct to the customer's list
+            customer.addCustomerProduct(customerProduct);
+
+            // Update the product and customer entities
+            productDAO.updateProduct(product);
+            customerDAO.updateCustomer(customer);
+        } else {
+            throw new RuntimeException("Product out of stock");
+        }
     }
+
+
 
     @Override
     public long calculateDaysInDatabase(Long productId) {
         Product product = productDAO.getProductById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        LocalDate currentDate = LocalDate.now();
-        LocalDate createdDate = product.getCreatedDate();
-        return ChronoUnit.DAYS.between(createdDate, currentDate);
+        Date currentDate = new Date();
+        Date createdDate = product.getCreatedDate();
+        return currentDate.getTime() - createdDate.getTime();
     }
 }
