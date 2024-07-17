@@ -4,15 +4,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.productSync.DAO.CategoryDAO;
 import com.productSync.DAO.CustomerDAO;
-import com.productSync.Model.Customer;
-import com.productSync.Model.CustomerProduct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.productSync.DAO.OrderDAO;
 import com.productSync.DAO.ProductDAO;
+import com.productSync.Model.Customer;
+import com.productSync.Model.Order;
 import com.productSync.Model.Product;
 import com.productSync.Service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ProductServiceImplements implements ProductService {
@@ -22,6 +24,12 @@ public class ProductServiceImplements implements ProductService {
 
     @Autowired
     private CustomerDAO customerDAO;
+
+    @Autowired
+    private OrderDAO orderDAO; // Inject OrderDAO
+
+    @Autowired
+    private CategoryDAO categoryDAO;
 
     @Override
     public List<Product> getAllProducts() {
@@ -35,9 +43,12 @@ public class ProductServiceImplements implements ProductService {
 
     @Override
     public Product createProduct(Product product) {
+        // Check if category exists
+        categoryDAO.findById(product.getCategory().getId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
         product.setCreatedDate(new Date());
-        Product createdProduct = productDAO.createProduct(product);
-        return productDAO.createProduct(createdProduct);
+        return productDAO.createProduct(product);
     }
 
     @Override
@@ -66,7 +77,7 @@ public class ProductServiceImplements implements ProductService {
         return productDAO.searchProductsByName(name);
     }
 
-
+    @Override
     public void sellProduct(Long productId, Long customerId) {
         Product product = productDAO.getProductById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
@@ -75,28 +86,22 @@ public class ProductServiceImplements implements ProductService {
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
         if (product.getQuantity() > 0) {
-            // Create a new CustomerProduct entity to represent the purchase
-            CustomerProduct customerProduct = new CustomerProduct();
-            customerProduct.setProduct(product);
-            customerProduct.setCustomer(customer);
-            customerProduct.setQuantity(1); // Assuming you sell only one quantity at a time
-
-            // Set the sold date and update the product quantity
-            product.setSoldDate(new Date());
+            // Decrease product quantity
             product.setQuantity(product.getQuantity() - 1);
-
-            // Add the CustomerProduct to the customer's list
-            customer.addCustomerProduct(customerProduct);
-
-            // Update the product and customer entities
+            product.setSoldDate(new Date());
             productDAO.updateProduct(product);
-            customerDAO.updateCustomer(customer);
+
+            // Create new order
+            Order order = new Order();
+            order.setCustomer(customer);
+            order.getProducts().add(product);
+            order.setQuantity(1); // Set the quantity sold
+            order.setOrderDate(new Date()); // Set the order date
+            orderDAO.createOrder(order);
         } else {
             throw new RuntimeException("Product out of stock");
         }
     }
-
-
 
     @Override
     public long calculateDaysInDatabase(Long productId) {
@@ -105,6 +110,6 @@ public class ProductServiceImplements implements ProductService {
 
         Date currentDate = new Date();
         Date createdDate = product.getCreatedDate();
-        return currentDate.getTime() - createdDate.getTime();
+        return (currentDate.getTime() - createdDate.getTime()) / (1000 * 60 * 60 * 24);
     }
 }

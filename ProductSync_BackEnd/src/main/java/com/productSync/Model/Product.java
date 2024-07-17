@@ -17,7 +17,7 @@ public class Product {
     private String name;
     private String description;
     private Double price;
-    private Integer quantity;
+    private int quantity;
 
     @ManyToOne
     private Category category;
@@ -25,6 +25,4 @@ public class Product {
     private Date createdDate;
     private Date soldDate;
 
-    @OneToMany(mappedBy = "product")
-    private List<CustomerProduct> customerProducts;
 }

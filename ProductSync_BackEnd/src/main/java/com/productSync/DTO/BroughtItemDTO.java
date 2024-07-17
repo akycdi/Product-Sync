@@ -1,6 +1,5 @@
 package com.productSync.DTO;
 
-import jakarta.persistence.Entity;
 import lombok.Data;
 
 @Data

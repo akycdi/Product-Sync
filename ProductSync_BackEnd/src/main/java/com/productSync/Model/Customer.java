@@ -16,12 +16,4 @@ public class Customer {
     private String name;
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CustomerProduct> customerProducts = new ArrayList<>();
-
-    public void addCustomerProduct(CustomerProduct customerProduct) {
-        customerProducts.add(customerProduct);
-        customerProduct.setCustomer(this);
-    }
-
 }
