@@ -26,10 +26,8 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products = new ArrayList<>();
 
-
     private int quantity;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
-
-
-
 }

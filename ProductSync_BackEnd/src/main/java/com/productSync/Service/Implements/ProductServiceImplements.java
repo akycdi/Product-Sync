@@ -1,7 +1,5 @@
 package com.productSync.Service.Implements;
 
-import java.util.*;
-
 import com.productSync.DAO.CategoryDAO;
 import com.productSync.DAO.CustomerDAO;
 import com.productSync.DAO.OrderDAO;
@@ -11,8 +9,9 @@ import com.productSync.Model.Order;
 import com.productSync.Model.Product;
 import com.productSync.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 @Service
 public class ProductServiceImplements implements ProductService {
@@ -24,7 +23,7 @@ public class ProductServiceImplements implements ProductService {
     private CustomerDAO customerDAO;
 
     @Autowired
-    private OrderDAO orderDAO; // Inject OrderDAO
+    private OrderDAO orderDAO;
 
     @Autowired
     private CategoryDAO categoryDAO;
@@ -41,9 +40,9 @@ public class ProductServiceImplements implements ProductService {
 
     @Override
     public Product createProduct(Product product) {
-        // Check if category exists
-        categoryDAO.findById(product.getCategory().getId())
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+//        // Ensure the category exists
+//        categoryDAO.getCategoryById(product.getCategory().getId())
+//                .orElseThrow(() -> new RuntimeException("Category not found"));
 
         product.setCreatedDate(new Date());
         return productDAO.createProduct(product);
@@ -101,6 +100,7 @@ public class ProductServiceImplements implements ProductService {
         }
     }
 
+    @Override
     public long getTotalProductsSold() {
         List<Product> products = productDAO.getAllProducts();
         long totalSold = 0;
@@ -112,6 +112,7 @@ public class ProductServiceImplements implements ProductService {
         return totalSold;
     }
 
+    @Override
     public long getStockInStorage() {
         List<Product> products = productDAO.getAllProducts();
         long totalStock = 0;
@@ -121,6 +122,7 @@ public class ProductServiceImplements implements ProductService {
         return totalStock;
     }
 
+    @Override
     public Map<String, Long> getLocationSalesData() {
         List<Order> orders = orderDAO.getAllOrders();
         Map<String, Long> locationSales = new HashMap<>();
@@ -131,5 +133,4 @@ public class ProductServiceImplements implements ProductService {
         }
         return locationSales;
     }
-
 }

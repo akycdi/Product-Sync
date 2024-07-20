@@ -22,8 +22,12 @@ public class Product {
     @ManyToOne
     private Category category;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date soldDate;
+
 
     private String url;
 

@@ -139,27 +139,6 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/locationSales")
-    public ResponseEntity<?> getLocationSalesData() {
-        try {
-            Map<String, Long> locationSales = productService.getLocationSalesData();
-            List<String> labels = new ArrayList<>(locationSales.keySet());
-            List<Long> data = new ArrayList<>(locationSales.values());
-
-            // Structure data for Chart.js format
-            Map<String, Object> chartData = new HashMap<>();
-            chartData.put("labels", labels);
-            chartData.put("datasets", List.of(Map.of("data", data)));
-
-            return ResponseEntity.ok(chartData);
-        } catch (Exception e) {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Internal Server Error: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-        }
-    }
-
-
 
 
 }
