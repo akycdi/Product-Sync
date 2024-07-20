@@ -1,8 +1,6 @@
 package com.productSync.Service.Implements;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import com.productSync.DAO.CategoryDAO;
 import com.productSync.DAO.CustomerDAO;
@@ -103,13 +101,35 @@ public class ProductServiceImplements implements ProductService {
         }
     }
 
-    @Override
-    public long calculateDaysInDatabase(Long productId) {
-        Product product = productDAO.getProductById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-
-        Date currentDate = new Date();
-        Date createdDate = product.getCreatedDate();
-        return (currentDate.getTime() - createdDate.getTime()) / (1000 * 60 * 60 * 24);
+    public long getTotalProductsSold() {
+        List<Product> products = productDAO.getAllProducts();
+        long totalSold = 0;
+        for (Product product : products) {
+            if (product.getSoldDate() != null) {
+                totalSold++;
+            }
+        }
+        return totalSold;
     }
+
+    public long getStockInStorage() {
+        List<Product> products = productDAO.getAllProducts();
+        long totalStock = 0;
+        for (Product product : products) {
+            totalStock += product.getQuantity();
+        }
+        return totalStock;
+    }
+
+    public Map<String, Long> getLocationSalesData() {
+        List<Order> orders = orderDAO.getAllOrders();
+        Map<String, Long> locationSales = new HashMap<>();
+
+        for (Order order : orders) {
+            String location = order.getCustomer().getLocation();
+            locationSales.put(location, locationSales.getOrDefault(location, 0L) + 1);
+        }
+        return locationSales;
+    }
+
 }

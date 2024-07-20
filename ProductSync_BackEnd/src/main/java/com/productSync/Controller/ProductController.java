@@ -1,5 +1,7 @@
 package com.productSync.Controller;
 
+import com.productSync.DAO.OrderDAO;
+import com.productSync.Model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,10 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import com.productSync.Model.Product;
 import com.productSync.Service.ProductService;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/products")
@@ -22,9 +21,15 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productService.getAllProducts();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+    public ResponseEntity<?> getAllProducts() {
+        try {
+            List<Product> products = productService.getAllProducts();
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Internal Server Error: " + e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
@@ -36,12 +41,14 @@ public class ProductController {
             } else {
                 Map<String, String> errorResponse = new HashMap<>();
                 errorResponse.put("error", "No product found with ID: " + id);
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+                return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+
             }
         } catch (Exception e) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Internal Server Error: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
     }
 
@@ -53,7 +60,8 @@ public class ProductController {
         } catch (Exception e) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Internal Server Error: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
     }
 
@@ -65,7 +73,8 @@ public class ProductController {
         } catch (Exception e) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Internal Server Error: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
     }
 
@@ -77,7 +86,8 @@ public class ProductController {
         } catch (Exception e) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Internal Server Error: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
     }
 
@@ -89,7 +99,8 @@ public class ProductController {
         } catch (Exception e) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Internal Server Error: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
     }
 
@@ -103,15 +114,52 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/lastReceived/{id}")
-    public ResponseEntity<?> calculateDaysInDatabase(@PathVariable Long id) {
+
+    @GetMapping("/totalProductsSold")
+    public ResponseEntity<?> getTotalProductsSold() {
         try {
-            long daysInDatabase = productService.calculateDaysInDatabase(id);
-            return ResponseEntity.ok(daysInDatabase);
+            long totalProductsSold = productService.getTotalProductsSold();
+            return ResponseEntity.ok(totalProductsSold);
         } catch (Exception e) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Internal Server Error: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
+
+    @GetMapping("/stockInStorage")
+    public ResponseEntity<?> getStockInStorage() {
+        try {
+            long stockInStorage = productService.getStockInStorage();
+            return ResponseEntity.ok(stockInStorage);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Internal Server Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
+
+    @GetMapping("/locationSales")
+    public ResponseEntity<?> getLocationSalesData() {
+        try {
+            Map<String, Long> locationSales = productService.getLocationSalesData();
+            List<String> labels = new ArrayList<>(locationSales.keySet());
+            List<Long> data = new ArrayList<>(locationSales.values());
+
+            // Structure data for Chart.js format
+            Map<String, Object> chartData = new HashMap<>();
+            chartData.put("labels", labels);
+            chartData.put("datasets", List.of(Map.of("data", data)));
+
+            return ResponseEntity.ok(chartData);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Internal Server Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
+
+
+
+
 }

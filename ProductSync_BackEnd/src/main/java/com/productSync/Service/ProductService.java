@@ -3,6 +3,7 @@ package com.productSync.Service;
 import com.productSync.Model.Product;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ProductService {
@@ -21,5 +22,8 @@ public interface ProductService {
 
     public void sellProduct(Long productId, Long customerId);
 
-    public long calculateDaysInDatabase(Long productId);
+    public long getTotalProductsSold();
+    public long getStockInStorage() ;
+
+    Map<String, Long> getLocationSalesData();
 }

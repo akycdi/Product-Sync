@@ -20,7 +20,7 @@ public class OrderDAOImplements implements OrderDAO {
     }
 
     @Override
-    public List<Order> findAll() {
+    public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
@@ -28,4 +28,6 @@ public class OrderDAOImplements implements OrderDAO {
     public List<Order> findByCustomerId(Long customerId) {
         return orderRepository.findByCustomerId(customerId);
     }
+
+
 }

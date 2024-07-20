@@ -7,7 +7,8 @@ import java.util.List;
 public interface OrderDAO {
     Order createOrder(Order order);
 
-    List<Order> findAll();
+    List<Order> getAllOrders();
 
     List<Order> findByCustomerId(Long customerId);
+
 }
