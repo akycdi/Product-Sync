@@ -13,7 +13,7 @@ import com.productSync.Service.OrderService;
 
 @RestController
 @RequestMapping("api/orders")
-@CrossOrigin("http://localhost:5173/")
+@CrossOrigin("*")
 public class OrderController {
 
     @Autowired

@@ -25,4 +25,6 @@ public class Product {
     private Date createdDate;
     private Date soldDate;
 
+    private String url;
+
 }

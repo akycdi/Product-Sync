@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/categories")
-@CrossOrigin("http://localhost:5173/")
+@CrossOrigin("*")
 public class CategoryController {
 
     @Autowired
