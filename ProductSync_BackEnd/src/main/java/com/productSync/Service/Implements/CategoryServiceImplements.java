@@ -20,4 +20,7 @@ public class CategoryServiceImplements implements CategoryService {
         return categoryRepository.findAll();
     }
 
+    public List<Category> createCategories(List<Category> categories) {
+        return categoryRepository.saveAll(categories);
+    }
 }
