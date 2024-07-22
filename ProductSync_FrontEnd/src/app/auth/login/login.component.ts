@@ -13,7 +13,7 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent implements OnInit {
 
   loginForm: Login = {
-    email: "",
+    usernameOrEmail: "",
     password: ""
   }
 
@@ -21,24 +21,28 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     if (localStorage.getItem('spring_token') != null) {
-      this.router.navigate(["/home"]);
+      this.router.navigate(["/home/"]);
+      console.log("true");
+
     }
   }
 
   loginAdmin(): void {
-    // this.authService.loginAdmin(this.loginForm).subscribe({
-    //   next: (response: any) {
-    //     localStorage.setItem("spring_token", response.accessToken);
-    //     this.router.navigate(["/home"]);
-    //     return response;
-    //   }
-    // })
-    this.router.navigate(["/home"]);
+    console.log(this.loginForm.usernameOrEmail + " " + this.loginForm.password);
+
+    this.authService.loginAdmin(this.loginForm).subscribe({
+      next: (response: any) =>{
+        localStorage.setItem("spring_token", response.accessToken);
+        this.router.navigate(["/home"]);
+        return response;
+      }
+    })
+    // this.router.navigate(["/home"]);
   }
 
 }
 
 interface Login {
-  email: String
+  usernameOrEmail: String
   password: String
 }

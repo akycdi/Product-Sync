@@ -15,7 +15,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/statistics")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:4200")
 public class StatisticsController {
 
     @Autowired

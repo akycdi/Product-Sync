@@ -14,7 +14,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/products")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:4200")
 public class ProductController {
 
     @Autowired

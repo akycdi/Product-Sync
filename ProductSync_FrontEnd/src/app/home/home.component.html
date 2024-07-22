@@ -14,13 +14,17 @@
         </button>
       </div>
       <div class="hidden lg:flex lg:gap-x-12">
-  
+
         <a class="text-sm font-semibold leading-6 text-gray-900" routerLink="products">Products</a>
         <a class="text-sm font-semibold leading-6 text-gray-900" routerLink="categories">Categories</a>
         <a class="text-sm font-semibold leading-6 text-gray-900" routerLink="graphs">Visualizations</a>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+      @if (isUserActive) {
+        <button class="text-sm font-semibold leading-6 border hover:bg-gray-50 text-indigo-600 p-3 py-1 rounded-md">Profile</button>
+      } @else {
         <button class="text-sm font-semibold leading-6 text-gray-900" (click)="toLogin()">Log in <span aria-hidden="true">&rarr;</span></button>
+      }
       </div>
     </nav>
     <!-- Mobile menu, show/hide based on menu open state. -->
@@ -47,14 +51,18 @@
               <a class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" routerLink="graphs">Visualizations</a>
             </div>
             <div class="py-6">
-              <button class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" (click)="toLogin()">Log in</button>
+              @if (isUserActive) {
+                <button class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-indigo-600 hover:bg-gray-50">Profile</button>
+              } @else {
+                <button class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" (click)="toLogin()">Log in</button>
+              }
             </div>
           </div>
         </div>
       </div>
     </div>
   </header>
-  
+
 
 <!-- <div class="bg-white p-4 gap-x-6 flex items-center text-sm font-medium border-b">
     <a routerLink="products">Products</a>

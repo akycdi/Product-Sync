@@ -5,7 +5,7 @@ export class Data {
         {
             id: 1,
             name: "Earthen Bottle",
-            image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg",
+            url: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg",
             description: "",
             price: 48,
             quantity: 30,
@@ -19,7 +19,7 @@ export class Data {
           {
             id: 2,
             name: "Nomad Tumbler",
-            image: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg",
+            url: "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg",
             description: "",
             price: 35,
             quantity: 30,
@@ -33,8 +33,8 @@ export class Data {
     ]
 
     all_categories: Category[] = [
-        {id: 1, name: "Bottle", image: ""},
-        {id: 1, name: "Bottle", image: ""}
+        {id: 1, name: "Bottle", imageUrl: ""},
+        {id: 1, name: "Bottle", imageUrl: ""}
       ]
 
 }

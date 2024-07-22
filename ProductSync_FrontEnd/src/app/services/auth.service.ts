@@ -7,7 +7,9 @@ import { Login } from '../../util/interfaces/models';
 })
 export class AuthService {
 
-  AUTH_URL: String = "https://product-sync.onrender.com/api"
+  // AUTH_URL: String = "https://product-sync.onrender.com/api"
+
+  AUTH_URL: String = "http://localhost:8080/api/auth"
 
   constructor(private httpClient: HttpClient) { }
 

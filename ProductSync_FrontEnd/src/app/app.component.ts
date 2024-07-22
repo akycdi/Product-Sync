@@ -11,5 +11,5 @@ import { ProductsComponent } from "./products/products.component";
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppComponent {
-  title = 'ProductSync_FrontEnd';
+  title = 'ProductSync';
 }

@@ -1,6 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartEvent } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { StatisticsService } from '../../services/statistics.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-bar-chart',
@@ -9,7 +11,10 @@ import { BaseChartDirective } from 'ng2-charts';
   standalone: true,
   imports: [BaseChartDirective],
 })
-export class BarChartComponent {
+export class BarChartComponent implements OnInit {
+
+  constructor(private statisticsService: StatisticsService) {}
+
   @ViewChild(BaseChartDirective) chart: BaseChartDirective<'bar'> | undefined;
 
   public barChartOptions: ChartConfiguration<'bar'>['options'] = {
@@ -17,12 +22,12 @@ export class BarChartComponent {
     scales: {
       x: {},
       y: {
-        min: 10,
+        // min: 0,
       },
     },
     plugins: {
       legend: {
-        display: true,
+        display: false,
       },
     },
   };
@@ -31,10 +36,22 @@ export class BarChartComponent {
   public barChartData: ChartData<'bar'> = {
     labels: ['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
     datasets: [
-      { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-      { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
+      { data: [65, 59, 80, 81, 56, 55, 40] },
     ],
   };
+
+  ngOnInit(): void {
+    this.statisticsService.productsChart().subscribe({
+      next: (response: any) => {
+        // console.log(response);
+
+        this.barChartData.datasets[0].data = response.data;
+        this.barChartData.labels = response.labels;
+
+        this.chart?.update();
+      }
+    })
+  }
 
   // events
   public chartClicked({
@@ -57,18 +74,4 @@ export class BarChartComponent {
     console.log(event, active);
   }
 
-  public randomize(): void {
-    // Only Change 3 values
-    this.barChartData.datasets[0].data = [
-      Math.round(Math.random() * 100),
-      59,
-      80,
-      Math.round(Math.random() * 100),
-      56,
-      Math.round(Math.random() * 100),
-      40,
-    ];
-
-    this.chart?.update();
-  }
 }

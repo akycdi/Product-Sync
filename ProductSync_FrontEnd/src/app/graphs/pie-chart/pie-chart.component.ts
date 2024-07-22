@@ -1,6 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { StatisticsService } from '../../services/statistics.service';
 
 @Component({
   selector: 'app-pie-chart',
@@ -9,7 +10,10 @@ import { BaseChartDirective } from 'ng2-charts';
   standalone: true,
   imports: [BaseChartDirective],
 })
-export class PieChartComponent {
+export class PieChartComponent implements OnInit {
+
+  constructor(private statisticsService: StatisticsService) {}
+
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
   // Pie
@@ -22,14 +26,25 @@ export class PieChartComponent {
     },
   };
   public pieChartData: ChartData<'pie', number[], string | string[]> = {
-    datasets: [
-      {
-        data: [3, 2],
-      },
-    ],
-    labels: ['Vijayawada', 'Hyderbad'],
+    datasets: [{
+      data: []
+    }],
+    labels: [],
   };
   public pieChartType: ChartType = 'pie';
+
+  ngOnInit(): void {
+    this.statisticsService.locationChart().subscribe({
+      next: (response: any) => {
+        this.pieChartData.datasets[0].data = response.data;
+        this.pieChartData.labels = response.labels;
+
+        this.chart?.update();
+      }
+    })
+
+    console.log(this.pieChartData)
+  }
 
   // events
   public chartClicked({

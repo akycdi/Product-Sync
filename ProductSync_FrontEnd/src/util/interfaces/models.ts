@@ -1,12 +1,12 @@
 export interface Login {
-  email: String;
+  usernameOrEmail: String;
   password: String;
 }
 
 export interface Products {
   id: Number;
   name: String;
-  image: String;
+  url: String;
   description: String;
   price: Number;
   quantity: Number;
@@ -18,5 +18,5 @@ export interface Products {
 export interface Category {
   id: Number;
   name: String;
-  image?: String;
+  imageUrl?: String;
 }
