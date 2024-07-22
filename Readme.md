@@ -30,7 +30,7 @@ This project is designed to manage and visualize data related to products, categ
     "price": 1200.00,
     "quantity": 50,
     "category": {
-        "id": 1  // Replace with the actual ID of the Electronics category
+        "id": 1 
     },
     "url": "http://example.com/laptop.png"
 }
@@ -42,7 +42,7 @@ This project is designed to manage and visualize data related to products, categ
     "price": 15.99,
     "quantity": 200,
     "category": {
-        "id": 2  // Replace with the actual ID of the Books category
+        "id": 2  
     },
     "url": "http://example.com/novel.png"
 }
